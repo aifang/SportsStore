@@ -19,8 +19,10 @@ namespace SportsStore.UnitTests
     [TestClass]
     public class UnitTest1
     {
+        /// <summary>
+        /// 单元测试：分页
+        /// </summary>
         [TestMethod]
-
         public void Can_Pageinate()
         {
             //准备
@@ -31,20 +33,25 @@ namespace SportsStore.UnitTests
                 new Product{ProductID=3,Name="p3"},
                 new Product{ProductID=4,Name="p4"},
                 new Product{ProductID=5,Name="p5"}}.AsQueryable());
+            //创建分页控制器，并使页面显示产品数为3项
             ProductController controller = new ProductController(mock.Object);
             controller.PageSize = 3;
 
             //动作
-            IEnumerable<Product> result = (IEnumerable<Product>)controller.List(2).Model;  //获取
+            ProductsListViewModel result = (ProductsListViewModel)controller.List(2).Model;  //获取
 
             //断言
-            Product[] prodArray = result.ToArray();
+            Product[] prodArray = result.Products.ToArray();
             Assert.IsTrue(prodArray.Length == 2);
             Assert.AreEqual(prodArray[0].Name, "p4");
             Assert.AreEqual(prodArray[1].Name, "p5");
             //https://10.0.0.187/svn/建设_福建省_01建设厅/TLW-P2015-008_省外入闽工程监理企业和人员信息登记系统/01 项目开发/1.6 代码/1.6.1 trunk/zjkcbak
         }
 
+        /// <summary>
+        /// 单元测试：创建页面链接
+        /// </summary>
+        [TestMethod]        
         public void Can_Generate_Page_Links()
         {
             //准备  定义一个HTML辅助器，为了运用扩展方法，需要这样
@@ -63,5 +70,36 @@ namespace SportsStore.UnitTests
             Assert.AreEqual(result.ToString(), @"<a href=""Page1"">1</a>" + @"<a class=""selected"" href=""Page2"">2</a>" + @"<a href=""Page3"">3</a>");
 
         }
+
+        /// <summary>
+        /// 单元测试：页面模型视图数据
+        /// </summary>
+        [TestMethod]
+        public void Can_Send_Pagination_View_Model()
+        {
+            //准备
+            Mock<IProductRepository> mock = new Mock<IProductRepository>();
+            mock.Setup(m => m.Products).Returns(new Product[]{
+                new Product{ProductID=1,Name="p1"},
+                new Product{ProductID=2,Name="p2"},
+                new Product{ProductID=3,Name="p3"},
+                new Product{ProductID=4,Name="p4"},
+                new Product{ProductID=5,Name="p5"}}.AsQueryable());
+            
+            //准备
+            ProductController controller = new ProductController(mock.Object);
+            controller.PageSize = 3;
+
+            //动作
+            ProductsListViewModel result = (ProductsListViewModel)controller.List(2).Model;
+
+            //断言
+            PagingInfo pageInfo = result.PagingInfo;
+            Assert.AreEqual(pageInfo.CurrentPage, 2);
+            Assert.AreEqual(pageInfo.ItemsPerPage, 3);
+            Assert.AreEqual(pageInfo.TotalItems, 5);
+            Assert.AreEqual(pageInfo.TotalPage, 2);
+        }
+
     }
 }

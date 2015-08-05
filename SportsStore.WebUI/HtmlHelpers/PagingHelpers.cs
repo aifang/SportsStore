@@ -16,7 +16,7 @@ namespace SportsStore.WebUI.HtmlHelpers
             for(int i=1;i<=pagingInfo.TotalPage;i++)
             {
                 TagBuilder tag = new TagBuilder("a");//构造一个a标签
-                tag.MergeAttribute("herf", pageUrl(i));
+                tag.MergeAttribute("href", pageUrl(i));
                 tag.InnerHtml = i.ToString();
                 if(i==pagingInfo.CurrentPage)
                 {
