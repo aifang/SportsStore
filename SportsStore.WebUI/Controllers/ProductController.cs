@@ -12,14 +12,16 @@ namespace SportsStore.WebUI.Controllers
     {
         //初始化接口
         private IProductRepository repositroy;
+        public int PageSize = 4;
+
         public ProductController(IProductRepository productRepository)
         {
             this.repositroy = productRepository;
         }
 
-        public ViewResult List()
+        public ViewResult List(int page=1)
         {
-            return View(repositroy.Products);
+            return View(repositroy.Products.OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize));
         }
     }
 }
