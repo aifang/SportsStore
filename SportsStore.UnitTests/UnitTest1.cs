@@ -38,7 +38,7 @@ namespace SportsStore.UnitTests
             controller.PageSize = 3;
 
             //动作
-            ProductsListViewModel result = (ProductsListViewModel)controller.List(2).Model;  //获取
+            ProductsListViewModel result = (ProductsListViewModel)controller.List(null,2).Model;  //获取
 
             //断言
             Product[] prodArray = result.Products.ToArray();
@@ -91,7 +91,7 @@ namespace SportsStore.UnitTests
             controller.PageSize = 3;
 
             //动作
-            ProductsListViewModel result = (ProductsListViewModel)controller.List(2).Model;
+            ProductsListViewModel result = (ProductsListViewModel)controller.List(null,2).Model;
 
             //断言
             PagingInfo pageInfo = result.PagingInfo;
@@ -100,6 +100,30 @@ namespace SportsStore.UnitTests
             Assert.AreEqual(pageInfo.TotalItems, 5);
             Assert.AreEqual(pageInfo.TotalPage, 2);
         }
-
+         /// <summary>
+        /// 单元测试：页面模型视图数据
+        /// </summary>
+        [TestMethod]
+        public void Can_Filter_Products()
+        {
+            //准备--创建模仿库
+            Mock<IProductRepository> mock = new Mock<IProductRepository>();
+            mock.Setup(m=>m.Products).Returns(new Product[]{
+             new Product{ProductID=1,Name="p1",Category="Cat1"},
+                new Product{ProductID=2,Name="p2",Category="Cat2"},
+                new Product{ProductID=3,Name="p3",Category="Cat3"},
+                new Product{ProductID=4,Name="p4",Category="Cat4"},
+                new Product{ProductID=5,Name="p5",Category="Cat5"}}.AsQueryable());
+            
+            //准备——创建控制器，并使页面大小为3个物品
+            ProductController controller = new ProductController(mock.Object);
+            controller.PageSize = 3;
+            //动作
+            Product[] result = ((ProductsListViewModel)controller.List("Cat2", 1).Model).Products.ToArray();
+            //断言
+            Assert.AreEqual(result.Length, 2);
+            Assert.IsTrue(result[0].Name == "p2" && result[0].Category == "Cat2");
+            Assert.IsTrue(result[1].Name == "p4" && result[1].Category == "Cat2");
+        }
     }
 }
