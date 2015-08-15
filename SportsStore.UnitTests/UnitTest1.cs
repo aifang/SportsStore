@@ -101,7 +101,7 @@ namespace SportsStore.UnitTests
             Assert.AreEqual(pageInfo.TotalPage, 2);
         }
          /// <summary>
-        /// 单元测试：页面模型视图数据
+        /// 单元测试：分类过滤
         /// </summary>
         [TestMethod]
         public void Can_Filter_Products()

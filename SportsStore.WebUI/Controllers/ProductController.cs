@@ -24,7 +24,7 @@ namespace SportsStore.WebUI.Controllers
         {
             ProductsListViewModel model = new ProductsListViewModel
             {
-                Products = repositroy.Products.Where(p=>p.Category==null||p.Category==category).OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize),
+               
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = page,
@@ -33,6 +33,14 @@ namespace SportsStore.WebUI.Controllers
                 },
                 CurrentCategory=category
             };
+            if (string.IsNullOrEmpty(category))
+            {
+                model.Products = repositroy.Products.OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
+            }
+            else
+            {
+                model.Products = repositroy.Products.Where(p => p.Category == category).OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize);
+            }        
             return View(model);
             //return View(repositroy.Products.OrderBy(p => p.ProductID).Skip((page - 1) * PageSize).Take(PageSize));
 
