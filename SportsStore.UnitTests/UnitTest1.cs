@@ -112,7 +112,7 @@ namespace SportsStore.UnitTests
              new Product{ProductID=1,Name="p1",Category="Cat1"},
                 new Product{ProductID=2,Name="p2",Category="Cat2"},
                 new Product{ProductID=3,Name="p3",Category="Cat3"},
-                new Product{ProductID=4,Name="p4",Category="Cat4"},
+                new Product{ProductID=4,Name="p4",Category="Cat2"},
                 new Product{ProductID=5,Name="p5",Category="Cat5"}}.AsQueryable());
             
             //准备——创建控制器，并使页面大小为3个物品
