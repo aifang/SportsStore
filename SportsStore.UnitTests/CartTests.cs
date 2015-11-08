@@ -22,9 +22,9 @@ namespace SportsStore.UnitTests
             
             Cart cart = new Cart();
 
-            CartController target = new CartController(mock.Object);
+            //CartController target = new CartController(mock.Object,);
 
-            target.AddToCart(cart, 1, null);
+            //target.AddToCart(cart, 1, null);
 
             Assert.AreEqual(cart.Lines.Count(), 1); Assert.AreEqual(cart.Lines.ToArray()[0].Product, 1);
         }

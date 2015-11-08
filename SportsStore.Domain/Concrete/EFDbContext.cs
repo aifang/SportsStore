@@ -8,7 +8,7 @@ using System.Text;
 namespace SportsStore.Domain.Concrete
 {
     /// <summary>
-    /// 类似数据库里面的sql窗口，可以执行sql，作为事务中的内容，确定后可以提交
+    /// 类似数据库里面的sql窗口，可以执行sql，作为事务中的内容，确定后可以提交,
     /// </summary>
     public class EFDbContext : DbContext
     {

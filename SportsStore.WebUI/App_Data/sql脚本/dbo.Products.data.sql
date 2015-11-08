@@ -1,3 +1,12 @@
+create table Products
+(
+[ProductID] int not null primary key identity,
+[Name] nvarchar(100) not null,
+[Description] nvarchar(100) not null,
+[Category] nvarchar(100) not null,
+[Price] decimal(16,2) not null
+)
+
 SET IDENTITY_INSERT [dbo].[Products] ON
 INSERT INTO [dbo].[Products] ([ProductID], [Name], [Description], [Category], [Price]) VALUES (1, N'Kayak', N'A boat for one person', N'Watersports', CAST(275.00 AS Decimal(16, 2)))
 INSERT INTO [dbo].[Products] ([ProductID], [Name], [Description], [Category], [Price]) VALUES (2, N'Lifejacket', N'Protective and fashionable', N'Watersports', CAST(48.95 AS Decimal(16, 2)))
